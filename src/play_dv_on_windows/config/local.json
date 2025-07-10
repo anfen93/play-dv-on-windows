@@ -1,0 +1,61 @@
+{
+  "paths": {
+    "output_dir": "S:/PLEX",
+    "temp_dir": null,
+    "log_dir": "./logs",
+    "allowed_base_dirs": [".", "~", "C:\\torrents"]
+  },
+  "qbittorrent": {
+    "host": "localhost",
+    "port": 8080,
+    "username": "admin",
+    "password": "null",
+    "timeout": 30
+  },
+  "processing": {
+    "parallel_episodes": 2,
+    "delete_after_success": true,
+    "use_temp_dir": false,
+    "min_file_size_gb": 1.0,
+    "max_retries": 3,
+    "retry_delay": 5
+  },
+  "filters": {
+    "require_4k": true,
+    "require_dv": true,
+    "excluded_categories": ["music", "software", "books"],
+    "max_seasons_per_torrent": 1,
+    "allowed_extensions": [".mkv"],
+    "keywords": {
+      "resolution": ["2160p", "4K", "UHD"],
+      "dolby_vision": ["DV", "DoVi", "Dolby.Vision"]
+    }
+  },
+  "ffmpeg": {
+    "video_codec": "copy",
+    "audio_codec": "copy",
+    "subtitle_codec": "mov_text",
+    "extra_flags": ["-movflags", "+faststart"],
+    "preserve_metadata": true
+  },
+  "logging": {
+    "level": "INFO",
+    "keep_days": 30,
+    "max_file_size_mb": 50,
+    "console_output": true
+  },
+  "notifications": {
+    "enabled": false,
+    "webhook_url": null,
+    "discord_webhook": null,
+    "email": {
+      "enabled": false,
+      "smtp_server": null,
+      "smtp_port": 587,
+      "username": null,
+      "password": null,
+      "from_email": null,
+      "to_email": null
+    }
+  }
+}

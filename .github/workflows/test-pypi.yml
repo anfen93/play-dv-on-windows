@@ -1,0 +1,72 @@
+name: Test PyPI Release
+
+on:
+  push:
+    tags:
+      - 'v*-test'
+      - 'v*-alpha'
+      - 'v*-beta'
+      - 'v*-rc*'
+
+jobs:
+  test-release:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        lfs: true
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install build twine
+        pip install -r requirements-test.txt
+        pip install -e .
+
+    - name: Install FFmpeg
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y ffmpeg
+    - name: Verify FFmpeg installation
+      run: |
+        ffmpeg -version
+        ffprobe -version
+        which ffmpeg
+        which ffprobe
+        echo "FFmpeg successfully installed and verified"
+
+    - name: Run tests
+      run: |
+        python run_tests.py all
+
+    - name: Build package
+      run: |
+        python -m build
+
+    - name: Publish to Test PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+        repository-url: https://test.pypi.org/legacy/
+        verbose: true
+
+    - name: Test installation from Test PyPI
+      run: |
+        # Wait a bit for the package to be available
+        sleep 30
+
+        # Try installing from Test PyPI
+        pip install --index-url https://test.pypi.org/simple/ \
+                    --extra-index-url https://pypi.org/simple \
+                    play-dv-on-windows
+
+        # Verify CLI tools work
+        play-dv-setup --check-deps || echo "FFmpeg check failed (expected in CI)"
+        play-dv-config --show

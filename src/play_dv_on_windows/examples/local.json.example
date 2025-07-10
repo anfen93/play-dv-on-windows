@@ -1,0 +1,24 @@
+{
+  "// Note": "This is an example local configuration file",
+  "// Usage": "Copy to config/local.json and customize for your setup",
+
+  "paths": {
+    "output_dir": "S:/PLEX",
+    "temp_dir": "D:/temp"
+  },
+
+  "processing": {
+    "parallel_episodes": 4,
+    "delete_after_success": true,
+    "min_file_size_gb": 2.0
+  },
+
+  "filters": {
+    "excluded_categories": ["music", "software", "books", "audiobooks"]
+  },
+
+  "logging": {
+    "level": "DEBUG",
+    "keep_days": 7
+  }
+}

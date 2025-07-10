@@ -1,0 +1,16 @@
+# Global code ownership
+* @anfen93
+
+# Core application files - require careful review
+/src/play_dv_on_windows/ @anfen93
+/tests/ @anfen93
+
+# Security-sensitive configurations
+/.github/ @anfen93
+/pyproject.toml @anfen93
+/.pre-commit-config.yaml @anfen93
+
+# Documentation - maintainer review preferred
+/README.md @anfen93
+/CLAUDE.md @anfen93
+/CHANGELOG.md @anfen93

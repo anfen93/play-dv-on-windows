@@ -1,0 +1,18 @@
+# Testing
+pytest>=7.0.0
+pytest-mock>=3.0.0
+pytest-cov>=4.0.0
+
+# Code formatting and quality
+pre-commit>=3.0.0
+black>=23.0.0
+flake8>=6.1.0
+flake8-docstrings>=1.7.0
+isort>=5.13.0
+autopep8>=2.3.0
+
+# Security
+bandit>=1.7.0
+
+# Optional
+pytest-xdist>=3.0.0  # Parallel test execution

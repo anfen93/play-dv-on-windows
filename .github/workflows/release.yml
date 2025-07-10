@@ -1,0 +1,111 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+' # Matches v1.0.0
+      - 'v[0-9]+.[0-9]+.[0-9]+-[0-9]+' # Matches v1.0.0-1
+      - '!v*-test*' # Explicitly exclude test tags
+      - '!v*-alpha*' # Exclude alpha
+      - '!v*-beta*' # Exclude beta
+      - '!v*-rc*' # Exclude release candidates
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Required to create releases
+      id-token: write  # Required for trusted publishing
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        lfs: true
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install build twine
+        pip install -r requirements-test.txt
+        pip install -e .
+
+    - name: Install FFmpeg
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y ffmpeg
+    - name: Verify FFmpeg installation
+      run: |
+        ffmpeg -version
+        ffprobe -version
+        which ffmpeg
+        which ffprobe
+        echo "FFmpeg successfully installed and verified"
+
+    - name: Run tests
+      run: |
+        python run_tests.py all
+
+    - name: Build package
+      run: |
+        python -m build
+
+    - name: Extract version from tag
+      id: get_version
+      run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+    - name: Publish to Test PyPI (for test releases)
+      if: contains(github.ref, '-test')
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+        repository-url: https://test.pypi.org/legacy/
+        verbose: true
+
+    - name: Publish to PyPI (for official releases)
+      if: "!contains(github.ref, '-test')"
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        password: ${{ secrets.PYPI_API_TOKEN }}
+        verbose: true
+        skip-existing: true
+
+    - name: Create Release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        # Create release body
+        cat > release_body.md << 'EOF'
+        ## Changes in this Release
+
+        See the [CHANGELOG](./CHANGELOG.md) for detailed changes.
+
+        ## Installation
+
+        **Official Release** - Install from PyPI:
+
+        ```bash
+        pip install play-dv-on-windows==${{ steps.get_version.outputs.VERSION }}
+        ```
+
+        ## Verify Installation
+
+        ```bash
+        play-dv-setup --check-deps
+        ```
+
+        ## PyPI Package
+
+        This release is automatically published to [PyPI](https://pypi.org/project/play-dv-on-windows/).
+        EOF
+
+        # Create release with assets
+        gh release create ${{ github.ref_name }} \
+          --title "Release ${{ steps.get_version.outputs.VERSION }}" \
+          --notes-file release_body.md \
+          ./dist/*.whl ./dist/*.tar.gz

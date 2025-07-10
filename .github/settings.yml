@@ -1,0 +1,133 @@
+# GitHub repository settings for play-dv-on-windows
+# This file configures repository settings using the Probot Settings app
+# Install: https://github.com/apps/settings
+
+repository:
+  name: play-dv-on-windows
+  description: "Convert 4K Dolby Vision MKV files to MP4 format for Windows Media Player compatibility"
+  homepage: ""
+  topics: "dolby-vision, mkv, mp4, conversion, windows, ffmpeg, qbittorrent, 4k, windows-media-player, media-player"
+  private: false
+
+  # Repository features
+  has_issues: true
+  has_projects: true
+  has_wiki: false
+  has_downloads: true
+
+  # Default branch
+  default_branch: main
+
+  # Merge options
+  allow_squash_merge: true
+  allow_merge_commit: false
+  allow_rebase_merge: true
+  delete_branch_on_merge: true
+
+  # Security settings
+  enable_automated_security_fixes: true
+  enable_vulnerability_alerts: true
+
+  # Advanced security
+  enable_secret_scanning: true
+  enable_secret_scanning_push_protection: true
+  dependency_graph_enabled: true
+
+# Branch protection rules
+branches:
+  - name: main
+    protection:
+      # Require pull request reviews
+      required_pull_request_reviews:
+        required_approving_review_count: 1
+        dismiss_stale_reviews: true
+        require_code_owner_reviews: true
+        require_last_push_approval: true
+        bypass_pull_request_allowances:
+          users: []
+          teams: []
+
+      # Require status checks
+      required_status_checks:
+        strict: true
+        contexts:
+          - "test (3.8)"
+          - "test (3.9)"
+          - "test (3.10)"
+          - "test (3.11)"
+          - "test (3.12)"
+
+      # Security restrictions
+      enforce_admins: true
+      required_linear_history: true
+      allow_force_pushes: false
+      allow_deletions: false
+      block_creations: false
+
+      # Require conversation resolution
+      required_conversation_resolution: true
+
+      # Additional security
+      lock_branch: false
+      required_signatures: false
+
+# Collaborators (you can add team members later)
+collaborators: []
+
+# Repository labels for issue management
+labels:
+  - name: "bug"
+    color: "d73a4a"
+    description: "Something isn't working"
+
+  - name: "documentation"
+    color: "0075ca"
+    description: "Improvements or additions to documentation"
+
+  - name: "enhancement"
+    color: "a2eeef"
+    description: "New feature or request"
+
+  - name: "good first issue"
+    color: "7057ff"
+    description: "Good for newcomers"
+
+  - name: "help wanted"
+    color: "008672"
+    description: "Extra attention is needed"
+
+  - name: "question"
+    color: "d876e3"
+    description: "Further information is requested"
+
+  - name: "security"
+    color: "ff6b6b"
+    description: "Security related issue"
+
+  - name: "testing"
+    color: "bfe5bf"
+    description: "Related to testing"
+
+  - name: "priority: high"
+    color: "ff0000"
+    description: "High priority"
+
+  - name: "priority: medium"
+    color: "ff9500"
+    description: "Medium priority"
+
+  - name: "priority: low"
+    color: "0052cc"
+    description: "Low priority"
+
+  - name: "dependencies"
+    color: "0366d6"
+    description: "Pull requests that update a dependency file"
+
+  - name: "python"
+    color: "3776ab"
+    description: "Python related changes"
+
+  - name: "github-actions"
+    color: "000000"
+    description: "GitHub Actions workflow changes"

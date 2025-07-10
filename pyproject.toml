@@ -1,0 +1,86 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "play-dv-on-windows"
+version = "1.0.11"
+description = "A comprehensive 4K Dolby Vision MKV to MP4 converter with qBittorrent integration"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "anfen", email = "anfen93@gmail.com"}
+]
+keywords = ["dolby-vision", "mkv", "mp4", "converter", "qbittorrent", "4k"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Multimedia :: Video :: Conversion",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "psutil>=5.8.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0.0",
+    "pytest-cov>=2.0.0",
+    "black>=21.0.0",
+    "flake8>=3.8.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/anfen93/play-dv-on-windows"
+Repository = "https://github.com/anfen93/play-dv-on-windows"
+Documentation = "https://github.com/anfen93/play-dv-on-windows/docs"
+Issues = "https://github.com/anfen93/play-dv-on-windows/issues"
+
+[project.scripts]
+play-dv-convert = "play_dv_on_windows.cli:convert_cli"
+play-dv-qbt = "play_dv_on_windows.cli:qbt_cli"
+play-dv-config = "play_dv_on_windows.cli:config_cli"
+play-dv-setup = "play_dv_on_windows.cli:setup_cli"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+play_dv_on_windows = ["config/*.json", "examples/*.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+    "--verbose",
+]
+
+[tool.coverage.run]
+source = ["src"]
+
+[tool.coverage.report]
+show_missing = true
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]

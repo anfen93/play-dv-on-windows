@@ -1,0 +1,10 @@
+# Required for qBittorrent API integration
+requests>=2.31.0
+
+# Required for disk space checks (optional but recommended)
+psutil>=5.9.0
+
+# Development dependencies (optional)
+# Install with: pip install coverage pytest
+# coverage>=7.0.0
+# pytest>=7.0.0
