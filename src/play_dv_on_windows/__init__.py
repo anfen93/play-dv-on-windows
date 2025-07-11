@@ -5,7 +5,7 @@ This package provides tools for converting 4K Dolby Vision MKV files to MP4 form
 designed for automated processing with qBittorrent integration.
 """
 
-__version__ = "1.0.12"
+__version__ = "1.0.13"
 __author__ = "anfen"
 __email__ = "anfen93@gmail.com"
 

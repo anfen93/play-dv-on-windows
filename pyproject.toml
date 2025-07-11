@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "play-dv-on-windows"
-version = "1.0.12"
+version = "1.0.13"
 description = "A comprehensive 4K Dolby Vision MKV to MP4 converter with qBittorrent integration"
 readme = "README.md"
 license = {text = "MIT"}
