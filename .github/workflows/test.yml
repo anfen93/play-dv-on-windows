@@ -15,7 +15,7 @@ jobs:
         lfs: true
 
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v6
       with:
         python-version: ${{ matrix.python-version }}
 
@@ -52,7 +52,7 @@ jobs:
         python run_tests.py all
 
     - name: Upload security reports
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       if: always()
       with:
         name: security-reports-${{ matrix.python-version }}
